@@ -1,0 +1,58 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        x:Class="UI.Views.ProjectCreationWindow"
+        Title="Create New Project"
+        Width="800"
+        Height="600"
+        MinWidth="800"
+        MaxWidth="800"
+        MinHeight="600"
+        MaxHeight="600"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
+    
+    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto,Auto,*" ColumnDefinitions="Auto,*">
+        <!-- Project Name -->
+        <TextBlock Text="Project Name:" 
+                   Grid.Row="0" Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Margin="0,0,10,10"/>
+        
+        <TextBox x:Name="ProjectNameTextBox"
+                 Grid.Row="0" Grid.Column="1"
+                 Margin="0,0,0,10"
+                 Watermark="Enter project name"/>
+        
+        <!-- Project Location -->
+        <TextBlock Text="Project Location:" 
+                   Grid.Row="1" Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Margin="0,0,10,10"/>
+        
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox x:Name="LocationTextBox"
+                     IsReadOnly="True"
+                     Watermark="Select folder location"/>
+            
+            <Button Content="Browse..."
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    Click="OnBrowseFolderClick"/>
+        </Grid>
+        
+        <!-- Create Button -->
+        <Button Content="Create Project"
+                Grid.Row="3" Grid.Column="1"
+                HorizontalAlignment="Right"
+                Width="120"
+                Click="OnCreateProjectClick"/>
+    </Grid>
+</Window>
