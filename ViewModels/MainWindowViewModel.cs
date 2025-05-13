@@ -1,28 +1,50 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using UI.Models;
+using CommunityToolkit.Mvvm.Input;
+using UI.Data;
+using UI.Data.Models;
+using UI.Services;
+
 namespace UI.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public ObservableCollection<Project> Projects { get; } = new();
+    private readonly AppDbContext? _db;
+    [ObservableProperty]
+    private ObservableCollection<Project> _projects = new();
     
 
     public MainWindowViewModel()
     {
-        Projects.Add(new Project
+        _db = DatabaseService.Db;
+        LoadProjects();
+    }
+    private void LoadProjects()
+    {
+        Projects = new ObservableCollection<Project>(_db!.Projects.ToList());
+    }
+    
+    [RelayCommand]
+    private void DeleteProject(Project project)
+    {
+        try
         {
-            Name = "E-Commerce Website",
-            Description = "Online store with payment integration",
-            Location = "/projects/ecommerce"
-        });
+            if (Directory.Exists(project.Location))
+            {
+                Directory.Delete(project.Location, recursive: true);
+            }
         
-        Projects.Add(new Project
+            DatabaseService.Db.Projects.Remove(project);
+            DatabaseService.Db.SaveChanges();
+            Projects.Remove(project);
+        }
+        catch (Exception ex)
         {
-            Name = "Mobile Banking App",
-            Description = "Financial application with secure transactions",
-            Location = "/Dev/BankingApp"
-        });
+            Console.WriteLine(ex);
+        }
     }
     
 }

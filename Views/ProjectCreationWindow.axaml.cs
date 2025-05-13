@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using UI.Data.Models;
 using UI.Services;
 
 namespace UI.Views;
@@ -65,7 +66,15 @@ public partial class ProjectCreationWindow : Window
             // Optional: Create default files in the .axonflow directory
             string configFilePath = Path.Combine(axonflowPath, "config.json");
             File.WriteAllText(configFilePath, "{}"); // Empty JSON file
-        
+
+            var project = new Project 
+            { 
+                Name = projectName, 
+                Location = location 
+            };
+            DatabaseService.Db.Projects.Add(project);
+            DatabaseService.Db.SaveChanges();
+            
             // Close the window or show success message
             var mainWindow = (MainWindow)this.Owner!;
             NavigationService.NavigateWindow(this, new EditorWindow());

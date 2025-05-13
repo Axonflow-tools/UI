@@ -2,10 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
-
         xmlns:vm="using:UI.ViewModels"
-        xmlns:models="clr-namespace:UI.Models"
+        xmlns:models="clr-namespace:UI.Data.Models"
         x:Class="UI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -28,8 +26,6 @@
                 
             <TextBox Watermark="Filter projects..." Height="30"  Grid.Column="2"/>
         </Grid>
-        
-        <!-- Projects list -->
         <ItemsControl ItemsSource="{Binding Projects}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="models:Project">
@@ -42,8 +38,13 @@
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <TextBlock Text="📁" FontSize="20" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Bold"/>
+                    
+                                <Button Margin="10 0 0 0"
+                                        Classes="Transparent"
+                                        Background="AliceBlue">
+                                    <Image Source="/Assets/Icons/icons8-trash-50.png" Width="16" Height="16"/>
+                                </Button>
                             </StackPanel>
-                            <TextBlock Text="{Binding Description}" FontSize="12" Foreground="#666"/>
                             <TextBlock Text="{Binding Location, StringFormat='Location: {0}'}" 
                                        FontSize="11" Foreground="#999"/>
                         </StackPanel>
@@ -51,5 +52,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
     </DockPanel>
 </Window>
